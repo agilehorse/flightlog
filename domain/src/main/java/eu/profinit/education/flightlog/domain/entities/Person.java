@@ -64,4 +64,13 @@ public class Person {
     public String getFullName() {
         return (ObjectUtils.defaultIfNull(firstName, "") + " " + ObjectUtils.defaultIfNull(lastName, "")).trim();
     }
+
+    public String getFullAddress()
+    {
+        if (address == null)
+        {
+            return "";
+        }
+        return address.getStreet() + " " + address.getCity() + " " + address.getPostalCode() + " " + address.getCountry();
+    }
 }

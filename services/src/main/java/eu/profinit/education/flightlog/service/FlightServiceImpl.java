@@ -23,6 +23,7 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -107,14 +108,20 @@ public class FlightServiceImpl implements FlightService {
     @Transactional(readOnly = true)
     @Override
     public List<FlightTo> getFlightsInTheAir() {
-        // TODO 2.5: načtěte lety ve vzduchu pomocí vaší nové metody ve FlightRepository
+        return flightRepository.findAllByLandingTimeNullOrderByTakeoffTimeAscIdAsc().stream().map(FlightTo::fromEntity).collect(Collectors.toList());
+        //  2.5: načtěte lety ve vzduchu pomocí vaší nové metody ve FlightRepository
         // Můžete použít Java 8 Stream API pro konverzi na Transfer Object (TO)
-        return new ArrayList<>();
     }
 
     @Override
     public List<FlightTuppleTo> getFlightsForReport() {
-        // TODO 8.2: Nactete dvojice letu pro obrazovku report
-        return new ArrayList<>();
+        // 8.2: Nactete dvojice letu pro obrazovku report
+        List<Flight> flights = flightRepository.findAllByFlightTypeOrderByTakeoffTimeDescIdAsc(Flight.Type.TOWPLANE);
+        List<FlightTuppleTo> flightTuppleTos = new ArrayList<>();
+        for (int i = 0; i < flights.size() / 2; i += 2) {
+            FlightTuppleTo flightTuppleTo = new FlightTuppleTo(FlightTo.fromEntity(flights.get(i)), FlightTo.fromEntity(flights.get(i + 1)));
+            flightTuppleTos.add(flightTuppleTo);
+        }
+        return flightTuppleTos;
     }
 }

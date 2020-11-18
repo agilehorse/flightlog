@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -89,12 +90,25 @@ public class PersonServiceTest {
 
     }
 
-    @Ignore("Test is not implemented")
+//    @Ignore("Test is not implemented")
     @Test
     public void shouldCreateNewClubMember() {
-        // TODO 7.1: Naimplementujte unit test s pouzitim mocku
+        // 7.1: Naimplementujte unit test s pouzitim mocku
 
+        // prepare data
+        PersonTo existingClubMember = PersonTo.builder().memberId(2L).build();
+        User testUser = new User(2L, "Kamila", "Spoustová", Collections.singletonList("PILOT"));
+        Person expectedPerson = new Person(Person.Type.CLUB_MEMBER, testUser.getFirstName(), testUser.getLastName(), null);
+
+        // mock behaviour
+        when(personRepository.findByMemberId(2L)).thenReturn(Optional.empty());
+        when(clubDatabaseDao.getUsers()).thenReturn(Collections.singletonList(testUser));
+        when(personRepository.save(any())).thenReturn(expectedPerson);
+
+        // call tested method
+        Person person = testSubject.getExistingOrCreatePerson(existingClubMember);
+
+        // verify results
+        assertEquals(expectedPerson, person);
     }
-
-
 }
