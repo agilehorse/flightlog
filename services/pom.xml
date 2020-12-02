@@ -53,7 +53,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <!-- 4.2: přidejte závislost na knihovně pro práci s CSV (bez verze, ta by měla být v parent POM)-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>

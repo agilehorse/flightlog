@@ -30,7 +30,7 @@ public class CsvExportServiceTest {
     private CsvExportService testSubject;
 
     // 6.1: Odstrante anotaci @Ignore, aby se test vykonaval
-    //@Ignore("Tested method is not implemented yet")
+    @Ignore("Tested method is not implemented yet")
     @Test
     public void testCSVExport() throws IOException, URISyntaxException {
         String fileName = "ExpectedExport.csv";

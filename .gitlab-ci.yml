@@ -1,0 +1,48 @@
+image: cvutczm/maven3_jdk11_cs_locale_ci:latest
+
+stages:
+  - Build
+  - Test
+
+cache:
+  paths:
+    - app/target/
+    - common/target/
+    - domain/target/
+    - external-system-connector/target/
+    - services/target/
+    - rest/target/
+
+compile:
+  allow_failure: false
+  stage: Build
+  only:
+    - master
+  when: always
+  script:
+    - mvn clean compile
+
+tests:
+  allow_failure: false
+  stage: Test
+  only:
+    - master
+  when: on_success
+  script:
+    - mvn test
+
+test package:
+  allow_failure: false
+  stage: Package
+  only:
+    - test
+  when: on_success
+  script:
+    - mvn -P pov-test package -Dmaven.test.skip=true
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    when: on_success
+    paths:
+      - app/target/*.jar
+    expire_in: 1 week
+
