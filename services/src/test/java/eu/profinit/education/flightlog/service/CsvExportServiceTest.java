@@ -2,9 +2,8 @@ package eu.profinit.education.flightlog.service;
 
 import eu.profinit.education.flightlog.IntegrationTestConfig;
 import eu.profinit.education.flightlog.to.FileExportTo;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -17,9 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = IntegrationTestConfig.class)
 @Transactional
 @TestPropertySource(
@@ -30,7 +28,7 @@ public class CsvExportServiceTest {
     private CsvExportService testSubject;
 
     // 6.1: Odstrante anotaci @Ignore, aby se test vykonaval
-    @Ignore("Tested method is not implemented yet")
+    @Disabled
     @Test
     public void testCSVExport() throws IOException, URISyntaxException {
         String fileName = "ExpectedExport.csv";

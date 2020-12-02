@@ -3,20 +3,17 @@ package eu.profinit.education.flightlog.domain.repositories;
 
 import eu.profinit.education.flightlog.IntegrationTestConfig;
 import eu.profinit.education.flightlog.domain.entities.Person;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = IntegrationTestConfig.class)
 @Transactional
 @TestPropertySource(
@@ -32,8 +29,8 @@ public class PersonRepositoryTest {
     public void shouldFindClubMemberByMemberId() {
         Optional<Person> maybeClubMember = testSubject.findByMemberId(testClubMemberId);
 
-        assertTrue("Club member should be found", maybeClubMember.isPresent());
-        assertEquals("Member ID should be 1", testClubMemberId, maybeClubMember.get().getMemberId());
+        assertTrue(maybeClubMember.isPresent(), "Club member should be found");
+        assertEquals(testClubMemberId, maybeClubMember.get().getMemberId(), "Member ID should be 1");
 
     }
 }

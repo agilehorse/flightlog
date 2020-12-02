@@ -1,9 +1,7 @@
 package eu.profinit.education.flightlog;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -26,10 +23,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = IntegrationTestConfig.class)
 @Transactional
 @Slf4j
@@ -39,14 +35,13 @@ public class FlightLogApplicationTests {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    // : 2.6 Smažte ignore a spusťte test po implementaci FlightService.getFlightsInTheAir
-	@Test
+    @Test
     public void flightsInAirAndLanding() throws Exception {
         ResponseEntity<List<Map>> flightsResponse = restTemplate.exchange("/flight/inAir", HttpMethod.GET, null, new ParameterizedTypeReference<List<Map>>(){});
         List<Map> flightsBefore = flightsResponse.getBody();
 
         int initialFlightsCount = flightsBefore.size();
-        assertTrue("There should be at least one flight", initialFlightsCount >= 1);
+        assertTrue(initialFlightsCount >= 1, "There should be at least one flight");
         assertEquals(5, flightsBefore.get(0).get("id"));
 
         String inputJson = readFileToString("landInput.json");
@@ -57,7 +52,7 @@ public class FlightLogApplicationTests {
         ResponseEntity<List<Map>> flightsResponse2 = restTemplate.exchange("/flight/inAir", HttpMethod.GET, null, new ParameterizedTypeReference<List<Map>>(){});
         List<Map> flightsAfter = flightsResponse2.getBody();
 
-        assertEquals("There should one flight less than at the beginning", initialFlightsCount - 1, flightsAfter.size());
+        assertEquals(initialFlightsCount - 1, flightsAfter.size(), "There should one flight less than at the beginning");
     }
 
 	@Test

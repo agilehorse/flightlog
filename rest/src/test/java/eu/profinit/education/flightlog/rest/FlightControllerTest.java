@@ -8,13 +8,10 @@ import eu.profinit.education.flightlog.to.AirplaneWithCrewTo;
 import eu.profinit.education.flightlog.to.FlightTakeoffTo;
 import eu.profinit.education.flightlog.to.PersonTo;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-@RunWith(SpringRunner.class)
 @Slf4j
 public class FlightControllerTest {
 
@@ -33,7 +30,6 @@ public class FlightControllerTest {
 
         String json = jsonMapper.writeValueAsString(start);
         log.info("JSON: {}", json);
-
 
     }
 

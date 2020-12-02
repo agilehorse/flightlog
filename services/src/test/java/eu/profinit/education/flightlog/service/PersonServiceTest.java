@@ -1,29 +1,34 @@
 package eu.profinit.education.flightlog.service;
 
+import eu.profinit.education.flightlog.IntegrationTestConfig;
 import eu.profinit.education.flightlog.dao.ClubDatabaseDao;
 import eu.profinit.education.flightlog.dao.User;
 import eu.profinit.education.flightlog.domain.entities.Person;
 import eu.profinit.education.flightlog.domain.repositories.PersonRepository;
 import eu.profinit.education.flightlog.to.AddressTo;
 import eu.profinit.education.flightlog.to.PersonTo;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(MockitoJUnitRunner.class)
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = IntegrationTestConfig.class)
+@ContextConfiguration(classes={IntegrationTestConfig.class})
+@ActiveProfiles("integrationtest")
 public class PersonServiceTest {
 
     @Mock
@@ -34,7 +39,7 @@ public class PersonServiceTest {
 
     private PersonServiceImpl testSubject;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         testSubject = new PersonServiceImpl(personRepository, clubDatabaseDao);
     }
@@ -59,11 +64,11 @@ public class PersonServiceTest {
         Person person = testSubject.getExistingOrCreatePerson(guestToCreate);
 
         // verify results
-        assertEquals("Person type does not match", Person.Type.GUEST, person.getPersonType());
-        assertEquals("First name does not match", guestToCreate.getFirstName(), person.getFirstName());
-        assertEquals("Last name does not match", guestToCreate.getLastName(), person.getLastName());
+        assertEquals(Person.Type.GUEST, person.getPersonType(), "Person type does not match");
+        assertEquals(guestToCreate.getFirstName(), person.getFirstName(), "First name does not match");
+        assertEquals(guestToCreate.getLastName(), person.getLastName(), "Last name does not match");
 
-        assertEquals("Strear does not match", guestToCreate.getAddress().getStreet(), person.getAddress().getStreet());
+        assertEquals(guestToCreate.getAddress().getStreet(), person.getAddress().getStreet(), "Strear does not match");
 
     }
 
@@ -86,7 +91,7 @@ public class PersonServiceTest {
         Person person = testSubject.getExistingOrCreatePerson(existingClubMember);
 
         // verify results
-        assertTrue("Should return prepared instance", clubMemberFromDd == person);
+        assertTrue(clubMemberFromDd == person, "Should return prepared instance");
 
     }
 
