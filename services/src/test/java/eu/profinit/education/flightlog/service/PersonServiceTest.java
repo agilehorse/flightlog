@@ -8,6 +8,7 @@ import eu.profinit.education.flightlog.domain.repositories.PersonRepository;
 import eu.profinit.education.flightlog.to.AddressTo;
 import eu.profinit.education.flightlog.to.PersonTo;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
@@ -29,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = IntegrationTestConfig.class)
 @ContextConfiguration(classes={IntegrationTestConfig.class})
 @ActiveProfiles("integrationtest")
+@Tag("fast")
+@Tag("unit")
 public class PersonServiceTest {
 
     @Mock

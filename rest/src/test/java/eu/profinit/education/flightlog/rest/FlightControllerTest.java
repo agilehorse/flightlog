@@ -8,11 +8,14 @@ import eu.profinit.education.flightlog.to.AirplaneWithCrewTo;
 import eu.profinit.education.flightlog.to.FlightTakeoffTo;
 import eu.profinit.education.flightlog.to.PersonTo;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
 @Slf4j
+@Tag("slow")
+@Tag("integration")
 public class FlightControllerTest {
 
     private static final ObjectMapper jsonMapper = new ObjectMapper();

@@ -15,11 +15,6 @@ import java.util.List;
 @Slf4j
 public class AirplaneController {
 
-    // 3.1: Vystavte REST endpoint vracející seznam klubových letadel
-    // letadla získáte voláním AirplaneService
-    // bude se volat metoda GET na /airplane
-    // struktura odpovědi je dána objektem AirplaneTo
-
     private final AirplaneService airplaneService;
 
     @GetMapping("/airplane")

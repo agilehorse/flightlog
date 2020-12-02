@@ -1,9 +1,6 @@
 package eu.profinit.education.flightlog.domain.codebooks;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,13 +9,15 @@ import javax.persistence.Table;
 
 import static eu.profinit.education.flightlog.domain.JpaConstants.Tables.AIRPLANE_TYPE;
 import static lombok.AccessLevel.PACKAGE;
+import static lombok.AccessLevel.PUBLIC;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @Table(name = AIRPLANE_TYPE)
-@NoArgsConstructor(access = PACKAGE)
+@NoArgsConstructor(access = PUBLIC)
+@AllArgsConstructor(access = PUBLIC)
 public class AirplaneType {
 
     @Id

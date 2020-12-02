@@ -22,27 +22,22 @@ compile:
   script:
     - mvn clean compile
 
-tests:
+unit tests:
   allow_failure: false
   stage: Test
   only:
     - master
   when: on_success
   script:
-    - mvn test
+    - mvn -P unit test
 
-test package:
+integration tests:
   allow_failure: false
   stage: Test
   only:
-    - test
+    - master
   when: on_success
   script:
-    - mvn -P pov-test package -Dmaven.test.skip=true
-  artifacts:
-    name: "$CI_COMMIT_REF_NAME"
-    when: on_success
-    paths:
-      - app/target/*.jar
-    expire_in: 1 week
+    - mvn -P integration test
+
 

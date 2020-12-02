@@ -1,6 +1,7 @@
 package eu.profinit.education.flightlog;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = IntegrationTestConfig.class)
 @Transactional
 @Slf4j
+@Tag("slow")
+@Tag("integration")
 @ActiveProfiles("stub")
 public class FlightLogApplicationTests {
 

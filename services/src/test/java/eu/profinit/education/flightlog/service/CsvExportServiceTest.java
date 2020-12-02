@@ -3,9 +3,11 @@ package eu.profinit.education.flightlog.service;
 import eu.profinit.education.flightlog.IntegrationTestConfig;
 import eu.profinit.education.flightlog.to.FileExportTo;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -15,19 +17,18 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = IntegrationTestConfig.class)
 @Transactional
-@TestPropertySource(
-    locations = "classpath:application-integrationtest.properties")
+@ActiveProfiles("integrationtest")
+@Tag("fast")
+@Tag("unit")
 public class CsvExportServiceTest {
 
     @Autowired
     private CsvExportService testSubject;
 
-    // 6.1: Odstrante anotaci @Ignore, aby se test vykonaval
     @Disabled
     @Test
     public void testCSVExport() throws IOException, URISyntaxException {
@@ -37,7 +38,6 @@ public class CsvExportServiceTest {
         FileExportTo allFlightsAsCsv = testSubject.getAllFlightsAsCsv();
         String actual = new String(allFlightsAsCsv.getContent()).replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
 
-        //  6.2: zkontrolujte obsah CSV
         assertEquals(expected, actual);
     }
 

@@ -1,5 +1,6 @@
 package eu.profinit.education.flightlog.dao;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,6 +16,8 @@ import java.util.List;
 
 @TestPropertySource(properties = {"integration.clubDb.baseUrl = http://vyuka.profinit.eu:8080"})
 @ContextConfiguration
+@Tag("slow")
+@Tag("integration")
 public class ClubDatabaseDaoImplTest {
 
     @Autowired
