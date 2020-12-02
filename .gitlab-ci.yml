@@ -33,7 +33,7 @@ tests:
 
 test package:
   allow_failure: false
-  stage: Package
+  stage: Test
   only:
     - test
   when: on_success
