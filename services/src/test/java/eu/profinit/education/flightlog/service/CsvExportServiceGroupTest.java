@@ -2,14 +2,14 @@ package eu.profinit.education.flightlog.service;
 
 import eu.profinit.education.flightlog.IntegrationTestConfig;
 import eu.profinit.education.flightlog.to.FileExportTo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -19,24 +19,25 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// ORIGINAL TEST
 @SpringBootTest(classes = IntegrationTestConfig.class)
 @Transactional
-@ActiveProfiles("integrationtest")
-@Tag("fast")
-@Tag("unit")
-public class CsvExportServiceTest {
+@Tag("slow")
+@Tag("integration")
+public class CsvExportServiceGroupTest {
 
-    @Autowired
+    @InjectMocks
     private CsvExportService testSubject;
 
-    @Disabled
     @Test
     public void testCSVExport() throws IOException, URISyntaxException {
-        String fileName = "ExpectedExport.csv";
-        String expected = readFileToString(fileName).replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
+        String fileName = "csv/expectedExport.csv";
+        String expected = readFileToString(fileName)
+                             .replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
 
         FileExportTo allFlightsAsCsv = testSubject.getAllFlightsAsCsv();
-        String actual = new String(allFlightsAsCsv.getContent()).replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
+        String actual = new String(allFlightsAsCsv.getContent())
+                            .replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
 
         assertEquals(expected, actual);
     }

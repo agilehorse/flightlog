@@ -6,9 +6,9 @@ insert into c_airplane_type(id, type, max_capacity) values (4, 'ASW 15 B', 1);
 insert into c_club_airplane(id, immatriculation, type_id, archived) values (1, 'OK-V23424', 2, false);
 insert into c_club_airplane(id, immatriculation, type_id, archived) values (2, 'OK-B123', 3, false);
 
-insert into t_person(id, person_type, member_id, first_name, last_name, street, city, postal_code, country) values (1, 'CLUB_MEMBER',1, 'Kamila', 'Spoustová', null, null, null, null);
-insert into t_person(id, person_type, member_id, first_name, last_name, street, city, postal_code, country) values (2, 'CLUB_MEMBER', 2, 'Naděžda', 'Pavelková', null, null, null, null);
-insert into t_person(id, person_type ,member_id, first_name, last_name, street, city, postal_code, country) values (3, 'GUEST', null, 'Řehoř', 'Novák', null, null, null, null);
+insert into t_person(id, person_type, member_id, first_name, last_name, street, city, postal_code, country) values (1, 'CLUB_MEMBER',1, 'Kamila', 'Spoustová', 'Ulice 678', 'Město ABCD', '82828', null);
+insert into t_person(id, person_type, member_id, first_name, last_name, street, city, postal_code, country) values (2, 'CLUB_MEMBER', 2, 'Naděžda', 'Pavelková', 'Ulice dlouhá 678', 'Město CDGF', '82828', null);
+insert into t_person(id, person_type ,member_id, first_name, last_name, street, city, postal_code, country) values (3, 'GUEST', 2, 'Řehoř', 'Novák', 'Ulice krátká 765', 'Karlov', '82828', null);
 
 
 insert into t_flight(id, flight_type, club_airplane_id, guest_airplane_immatriculation, guest_airplane_type, takeoff_time, landing_time, task, pilot_person_id, copilot_person_id, note) values (2, 'GLIDER', 2, null, null, (TIMESTAMP '2018-10-23 13:30:00'), null,'',1,null,'Note A');

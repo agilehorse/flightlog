@@ -1,6 +1,8 @@
 package eu.profinit.education.flightlog;
 
+import eu.profinit.education.flightlog.domain.repositories.FlightRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,16 +58,6 @@ public class FlightLogApplicationTests {
         List<Map> flightsAfter = flightsResponse2.getBody();
 
         assertEquals(initialFlightsCount - 1, flightsAfter.size(), "There should one flight less than at the beginning");
-    }
-
-	@Test
-	public void takeoff() throws Exception {
-        String inputJson = readFileToString("takeoffInput.json");
-
-        HttpEntity<String> request = createRequestEntityWithHeaders(inputJson);
-        ResponseEntity<Object> response = restTemplate.exchange(  "/flight/takeoff", HttpMethod.POST, request, Object.class);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
     private HttpEntity<String> createRequestEntityWithHeaders(String inputJson) {

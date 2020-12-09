@@ -9,12 +9,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Sort;
 
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +38,6 @@ public class AirplaneServiceTest {
 
     private List<ClubAirplane> clubAirplanes;
     private List<AirplaneTo> airplaneTosExpected;
-
 
     @BeforeEach
     void setUp() {
@@ -76,6 +79,17 @@ public class AirplaneServiceTest {
     }
 
     @Test
+    public void getClubAirplanesShouldThrowValidationException() {
+        ClubAirplane clubAirplaneArchived = new ClubAirplane(4L, "OK-C", new AirplaneType(4L, "ASW 15 B", 1), true);
+        clubAirplanes.add(clubAirplaneArchived);
+
+        // mock the repository
+        Mockito.doReturn(clubAirplanes).when(clubAirplaneRepository).findAll(Mockito.any(Sort.class));
+
+        Exception exception = assertThrows(ConstraintViolationException.class, () -> testSubject.getClubAirplanes());
+    }
+
+    @Test
     public void getClubAirplanesShouldReturnAirplanesPreservesOrder() {
         // mock the repository
         Mockito.doReturn(clubAirplanes).when(clubAirplaneRepository).findAll(Mockito.any(Sort.class));
@@ -89,7 +103,7 @@ public class AirplaneServiceTest {
     }
 
     @Test
-    @Disabled
+    @Disabled // enable later, this one will not pass because of missing validation
     public void getClubAirplanesShouldReturnOnlyAirplanesThatAreNotArchived() {
         ClubAirplane clubAirplaneArchived = new ClubAirplane(4L, "OK-C222", new AirplaneType(4L, "ASW 15 B", 1), true);
         clubAirplanes.add(clubAirplaneArchived);
@@ -101,4 +115,31 @@ public class AirplaneServiceTest {
 
         assertFalse(testSubject.getClubAirplanes().contains(airplaneTo4), "Actual returned airplane list should not contain archived club airplanes.");
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/csv/airplanes/data.csv")
+    public void getAllClubAirplanesShouldRaiseExceptionForInvalidRecords(String imatriculation, int capacity, String type, boolean valid) {
+        if (imatriculation.equals("nill"))
+            imatriculation = null;
+
+        if (type.equals("nill"))
+            type = null;
+
+        List<ClubAirplane> mockedClubAirplanes = new ArrayList<>();
+        ClubAirplane clubAirplane1 = new ClubAirplane(1L, imatriculation, new AirplaneType(1L, type, capacity), false);
+        mockedClubAirplanes.add(clubAirplane1);
+
+        AirplaneTo expectedAirplane = new AirplaneTo(1L, imatriculation, type);
+
+        // mock the repository
+        Mockito.doReturn(mockedClubAirplanes).when(clubAirplaneRepository).findAll(Mockito.any(Sort.class));
+
+        if (valid) {
+            assertTrue(testSubject.getClubAirplanes().contains(expectedAirplane));
+        } else {
+            Exception exception = assertThrows(ConstraintViolationException.class, () -> testSubject.getClubAirplanes());
+            assertTrue(exception.getMessage().contains("Validation exceptions raised when accessing airplanes from database. Please contact the administrator."));
+        }
+    }
+
 }

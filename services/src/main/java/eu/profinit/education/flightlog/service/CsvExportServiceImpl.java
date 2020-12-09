@@ -79,8 +79,6 @@ public class CsvExportServiceImpl implements CsvExportService {
         } catch (IOException e) {
             throw new FlightLogException("Error during flights CSV export", e);
         }
-        // 4.3: Naimplementujte vytváření CSV.
-        // Tip: můžete použít Apache Commons CSV - https://commons.apache.org/proper/commons-csv/ v příslušných pom.xml naleznete další komentáře s postupem
     }
 
     private String formatDateTime(LocalDateTime dateTime) {

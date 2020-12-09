@@ -1,10 +1,7 @@
 package eu.profinit.education.flightlog.to;
 
 import eu.profinit.education.flightlog.domain.entities.Person;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -12,11 +9,16 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class PersonTo implements Serializable {
 
     private Long memberId;
+
+    @NonNull
     private String firstName;
+    @NonNull
     private String lastName;
+
     private AddressTo address;
 
     public PersonTo(String firstName, String lastName, AddressTo address) {

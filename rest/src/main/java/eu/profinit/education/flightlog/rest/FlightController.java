@@ -48,7 +48,7 @@ public class FlightController {
         return flightsInTheAir;
     }
 
-    @PostMapping("/flight/takeoff")
+    @PostMapping("flight/takeoff")
     public ResponseEntity takeoff(@RequestBody FlightTakeoffTo start){
         log.debug("Start\n{}", start);
 
@@ -57,7 +57,7 @@ public class FlightController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping("/flight/land")
+    @PostMapping("flight/land")
     public ResponseEntity land(@RequestBody FlightLandingTo landing){
         log.debug("Land\n{}", landing);
 

@@ -13,8 +13,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import static lombok.AccessLevel.PACKAGE;
-import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.*;
 
 @Embeddable
 @Getter
@@ -22,7 +21,7 @@ import static lombok.AccessLevel.PRIVATE;
 @ToString
 @Builder
 @NoArgsConstructor(access = PACKAGE)
-@AllArgsConstructor(access = PRIVATE)
+@AllArgsConstructor(access = PUBLIC)
 public class Airplane {
 
     @OneToOne

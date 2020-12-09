@@ -1,4 +1,65 @@
 {
   "flightId": 5,
-  "landingTime": "2018-10-25T19:35:00.000000"
+  "landingTime": "2018-10-25T19:35:00.000000",
+  "task":"Task A",
+  "towplane":{
+    "airplane":{
+      "id":1,
+      "immatriculation":"OK-HHV",
+      "type":"LF-101 Placák"
+    },
+    "pilot":{
+      "memberId": 15,
+      "firstName":"Pavel",
+      "lastName":"Novák",
+      "address": {
+        "street": "Rooslveltova 2",
+        "city": "Praha 6",
+        "postalCode": "16000",
+        "country": "Czech Republic"
+      }
+    },
+    "copilot":{
+      "memberId": 12,
+      "firstName":"Eliška",
+      "lastName":"Kutnohorská",
+      "address": {
+        "street": "Tychonova 2",
+        "city": "Praha 6",
+        "postalCode": "16000",
+        "country": "Czech Republic"
+      }
+    },
+    "note":"Note towplane"
+  },
+  "glider":{
+    "airplane":{
+      "id": 2,
+      "immatriculation":"OK-HDG",
+      "type":"LF-107 Luňák"
+    },
+    "pilot":{
+      "memberId": 12,
+      "firstName":"Eliška",
+      "lastName":"Kutnohorská",
+      "address": {
+        "street": "Tychonova 2",
+        "city": "Praha 6",
+        "postalCode": "16000",
+        "country": "Czech Republic"
+      }
+    },
+    "copilot":{
+      "memberId": 30,
+      "firstName":"Pavel",
+      "lastName":"Novák",
+      "address": {
+        "street": "Rooslveltova 2",
+        "city": "Praha 6",
+        "postalCode": "16000",
+        "country": "Czech Republic"
+      }
+    },
+    "note":"Note glider"
+  }
 }

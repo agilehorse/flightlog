@@ -7,6 +7,7 @@ import eu.profinit.education.flightlog.domain.entities.Address;
 import eu.profinit.education.flightlog.domain.entities.Person;
 import eu.profinit.education.flightlog.domain.repositories.PersonRepository;
 import eu.profinit.education.flightlog.exceptions.NotFoundException;
+import eu.profinit.education.flightlog.exceptions.ValidationException;
 import eu.profinit.education.flightlog.to.PersonTo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,10 @@ public class PersonServiceImpl implements PersonService {
         if (personTo == null) {
             return null;
         }
+
+        // check constraints
+        personValidate(personTo);
+
         if (personTo.getMemberId() != null) {
             User userFromBackend = getClubMemberById(personTo.getMemberId());
             Optional<Person> maybeClubMember = personRepository.findByMemberId(userFromBackend.getMemberId());
@@ -52,6 +57,45 @@ public class PersonServiceImpl implements PersonService {
         } else {
             Person guest = createGuestEntity(personTo);
             return personRepository.save(guest);
+        }
+    }
+
+    private void personValidate(PersonTo personTo) {
+        // validations
+        if (personTo.getFirstName().length() > 50) {
+            throw new ValidationException("First name must be maximum of 50 characters long.");
+        }
+
+        if (personTo.getLastName().length() > 50) {
+            throw new ValidationException("Last name must be maximum of 50 characters long.");
+        }
+
+        if (personTo.getAddress() != null) {
+            if (personTo.getAddress().getStreet().length() <= 3) {
+                throw new ValidationException("Street must be longer than 3 characters.");
+            }
+
+            if (personTo.getAddress().getStreet().length() > 50) {
+                throw new ValidationException("Street must be maximum of 50 characters long.");
+            }
+
+            if (personTo.getAddress().getCity().length() <= 1) {
+                throw new ValidationException("City must be at least 2 characters long.");
+            }
+
+            if (personTo.getAddress().getCity().length() > 50) {
+                throw new ValidationException("City must be maximum of 50 characters long.");
+            }
+
+            if (personTo.getAddress().getPostalCode().length() != 5) {
+                throw new ValidationException("Postal code must be exactly 5 characters long.");
+            }
+
+            try {
+                Integer.parseInt(personTo.getAddress().getPostalCode());
+            } catch (NumberFormatException e) {
+                throw new ValidationException("Postal code must only consist of numbers", e);
+            }
         }
     }
 
