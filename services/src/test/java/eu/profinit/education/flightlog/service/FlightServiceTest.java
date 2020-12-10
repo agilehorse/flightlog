@@ -14,13 +14,11 @@ import eu.profinit.education.flightlog.to.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -406,14 +404,64 @@ public class FlightServiceTest {
     @Nested
     @DisplayName("Flights export")
     class FlightsExport {
+
+        private Flight generateFlight(Long id, Flight.Type flightType, Task task, String type, String imatriculation) {
+            return new Flight(id, flightType, task, LocalDateTime.of(2020, 12, 2, 12, 30, 30), LocalDateTime.of(2020, 12, 2, 16, 30, 30), new Airplane( null, imatriculation, type), PersonDataSource.clubPerson, PersonDataSource.guestPerson, null, null, null);
+        }
+
         @Test
         public void getFlightsForReportReturnsAllCorrectTuplesOfFlights() {
-            assert false;
+            Flight firstGliderFlight = generateFlight(1L, Flight.Type.GLIDER, Task.of("A3"), "Zlín Z-42M", "OK-VGD32");
+            Flight firstTowplaneFlight = generateFlight(2L, Flight.Type.TOWPLANE, Task.TOWPLANE_TASK, "ASW 15 B", "OK-V23424");
+
+            Flight secondGliderFlight = generateFlight(3L, Flight.Type.GLIDER, Task.of("A1"), "L-13A Blaník", "OK-B123");
+            Flight secondTowplaneFlight = generateFlight(4L, Flight.Type.TOWPLANE, Task.TOWPLANE_TASK, "ASW 15 B", "OK-C453");
+
+            Flight thirdFlightWithoutGlider = generateFlight(5L, Flight.Type.TOWPLANE, Task.TOWPLANE_TASK, "ASW 15 B", "OK-AB567");
+
+            firstTowplaneFlight.setGliderFlight(firstGliderFlight);
+            secondTowplaneFlight.setGliderFlight(secondGliderFlight);
+
+            List<Flight> flights = new ArrayList<>();
+            flights.add(firstTowplaneFlight);
+            flights.add(secondTowplaneFlight);
+            flights.add(thirdFlightWithoutGlider);
+
+            List<FlightTuppleTo> flightTuppleTos = new ArrayList<>();
+            flightTuppleTos.add(FlightTuppleTo.builder().towplane(FlightTo.fromEntity(firstTowplaneFlight)).glider(FlightTo.fromEntity(firstGliderFlight)).build());
+            flightTuppleTos.add(FlightTuppleTo.builder().towplane(FlightTo.fromEntity(secondTowplaneFlight)).glider(FlightTo.fromEntity(secondGliderFlight)).build());
+            flightTuppleTos.add(FlightTuppleTo.builder().towplane(FlightTo.fromEntity(thirdFlightWithoutGlider)).build());
+
+            Mockito.doReturn(flights).when(flightRepository).findAllByFlightTypeOrderByTakeoffTimeDescIdAsc(Mockito.eq(Flight.Type.TOWPLANE));
+
+
+            List<FlightTuppleTo> flightTuppleTosActual = testSubject.getFlightsForReport();
+
+            assertEquals(flightTuppleTos, flightTuppleTosActual);
         }
 
         @Test
         public void getFlightsForReportReturnsOnlyTowplanesIfGliderIsNotSpecified() {
-            assert false;
+            Flight firstTowplaneFlight = generateFlight(2L, Flight.Type.TOWPLANE, Task.TOWPLANE_TASK, "ASW 15 B", "OK-V23424");
+            Flight secondTowplaneFlight = generateFlight(4L, Flight.Type.TOWPLANE, Task.TOWPLANE_TASK, "ASW 15 B", "OK-C453");
+            Flight thirdFlightWithoutGlider = generateFlight(5L, Flight.Type.TOWPLANE, Task.TOWPLANE_TASK, "ASW 15 B", "OK-AB567");
+
+
+            List<Flight> flights = new ArrayList<>();
+            flights.add(firstTowplaneFlight);
+            flights.add(secondTowplaneFlight);
+            flights.add(thirdFlightWithoutGlider);
+
+            List<FlightTuppleTo> flightTuppleTos = new ArrayList<>();
+            flightTuppleTos.add(FlightTuppleTo.builder().towplane(FlightTo.fromEntity(firstTowplaneFlight)).build());
+            flightTuppleTos.add(FlightTuppleTo.builder().towplane(FlightTo.fromEntity(secondTowplaneFlight)).build());
+            flightTuppleTos.add(FlightTuppleTo.builder().towplane(FlightTo.fromEntity(thirdFlightWithoutGlider)).build());
+
+            Mockito.doReturn(flights).when(flightRepository).findAllByFlightTypeOrderByTakeoffTimeDescIdAsc(Mockito.eq(Flight.Type.TOWPLANE));
+
+            List<FlightTuppleTo> flightTuppleTosActual = testSubject.getFlightsForReport();
+
+            assertEquals(flightTuppleTos, flightTuppleTosActual);
         }
     }
 }
