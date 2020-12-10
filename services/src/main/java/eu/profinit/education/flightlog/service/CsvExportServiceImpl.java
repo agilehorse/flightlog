@@ -28,7 +28,7 @@ public class CsvExportServiceImpl implements CsvExportService {
 
     private final String fileName;
     private static final String DATE_PATTERN = "dd.MM.yyyy HH:mm:ss";
-    private final String[] HEADERS = new String[]{"Datum", "Čas vzletu", "Typ letadla", "Imatrikulace", "Úloha letadla", "Datum a čas přistání", "Jméno a přijmění a adresa pilota", "Jméno a přijmění a adresa copilota"};
+    private final String[] HEADERS = new String[]{"Datum", "Čas vzletu", "Typ letadla", "Imatrikulace", "Úloha letadla", "Datum a čas přistání", "Jméno a přijmení a adresa pilota", "Jméno a přijmení a adresa copilota"};
 
     public CsvExportServiceImpl(FlightRepository flightRepository, @Value("${csv.export.flight.fileName}") String fileName) {
         this.flightRepository = flightRepository;

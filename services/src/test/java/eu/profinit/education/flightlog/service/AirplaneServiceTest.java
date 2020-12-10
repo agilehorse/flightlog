@@ -86,7 +86,7 @@ public class AirplaneServiceTest {
         // mock the repository
         Mockito.doReturn(clubAirplanes).when(clubAirplaneRepository).findAll(Mockito.any(Sort.class));
 
-        Exception exception = assertThrows(ConstraintViolationException.class, () -> testSubject.getClubAirplanes());
+        assertThrows(ConstraintViolationException.class, () -> testSubject.getClubAirplanes());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class AirplaneServiceTest {
     }
 
     @Test
-    @Disabled // enable later, this one will not pass because of missing validation
+    @Disabled // todo: enable later, this one will not pass because of missing validation
     public void getClubAirplanesShouldReturnOnlyAirplanesThatAreNotArchived() {
         ClubAirplane clubAirplaneArchived = new ClubAirplane(4L, "OK-C222", new AirplaneType(4L, "ASW 15 B", 1), true);
         clubAirplanes.add(clubAirplaneArchived);

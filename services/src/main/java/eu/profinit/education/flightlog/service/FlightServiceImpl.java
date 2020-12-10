@@ -116,9 +116,17 @@ public class FlightServiceImpl implements FlightService {
         // 8.2: Nactete dvojice letu pro obrazovku report
         List<Flight> flights = flightRepository.findAllByFlightTypeOrderByTakeoffTimeDescIdAsc(Flight.Type.TOWPLANE);
         List<FlightTuppleTo> flightTuppleTos = new ArrayList<>();
-        for (int i = 0; i < flights.size() / 2; i += 2) {
-            FlightTuppleTo flightTuppleTo = new FlightTuppleTo(FlightTo.fromEntity(flights.get(i)), FlightTo.fromEntity(flights.get(i + 1)));
-            flightTuppleTos.add(flightTuppleTo);
+        for (Flight f: flights) {
+            if (f.getTowplaneFlight() == null && f.getGliderFlight() == null) {
+                FlightTuppleTo flightTuppleTo = FlightTuppleTo.builder().towplane(FlightTo.fromEntity(f)).build();
+                flightTuppleTos.add(flightTuppleTo);
+            } else {
+                FlightTuppleTo flightTuppleTo = FlightTuppleTo.builder()
+                                    .towplane(FlightTo.fromEntity(f))
+                                    .glider(FlightTo.fromEntity(f.getGliderFlight()))
+                                    .build();
+                flightTuppleTos.add(flightTuppleTo);
+            }
         }
         return flightTuppleTos;
     }
