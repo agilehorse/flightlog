@@ -6,6 +6,7 @@ import eu.profinit.education.flightlog.domain.entities.Address;
 import eu.profinit.education.flightlog.domain.entities.Person;
 import eu.profinit.education.flightlog.domain.repositories.PersonRepository;
 import eu.profinit.education.flightlog.exceptions.NotFoundException;
+import eu.profinit.education.flightlog.exceptions.ValidationException;
 import eu.profinit.education.flightlog.service.datasource.PersonDataSource;
 import eu.profinit.education.flightlog.to.AddressTo;
 import eu.profinit.education.flightlog.to.PersonTo;
@@ -329,7 +330,7 @@ public class PersonServiceTest {
     class CreateGuestEntity {
 
         @Test
-        public void createGuestEntityCreatesCorrectGuestEntityWithAdress() {
+        public void createGuestEntityCreatesCorrectGuestEntityWithAddress() {
             Person guestPersonExcepted = PersonDataSource.guestPerson;
             guestPersonExcepted.setId(null);
 
@@ -341,6 +342,114 @@ public class PersonServiceTest {
                 () -> assertEquals(person.getPersonType(), guestPersonExcepted.getPersonType()),
                 () -> assertEquals(person.getFullAddress(), guestPersonExcepted.getFullAddress())
             );
+        }
+    }
+
+    // validatePerson
+    @Nested
+    @DisplayName("Person entity validate")
+    class PersonValidate {
+
+        @ParameterizedTest
+        @DisplayName("Validate should not throw exception for valid input entity.")
+        @CsvSource({
+            "41108,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,Hradec",
+            "40008,jmenodlouhepadesatznakuaajmenodelsinezpadesatznak,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,Hradec",
+            "99999,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznak,Zahradni,Hradec"
+        })
+        public void shouldValidatePersonOK(String postalCode, String name, String surname, String street, String city) {
+            if (postalCode.equals("nill"))
+                postalCode = null;
+            if (name.equals("nill"))
+                name = null;
+            if (surname.equals("nill"))
+                surname = null;
+            if (street.equals("nill"))
+                street = null;
+            if (city.equals("nill"))
+                city = null;
+
+            PersonTo validatePerson = PersonTo.builder()
+                .firstName(name)
+                .lastName(surname)
+                .address(AddressTo.builder()
+                    .street(street)
+                    .city(city)
+                    .postalCode(postalCode)
+                    .build())
+                .build();
+
+            assertDoesNotThrow(() -> ReflectionTestUtils.invokeMethod(testSubject, "personValidate", validatePerson));
+        }
+
+        @ParameterizedTest
+        @DisplayName("Validation of person should fail with Validation exception")
+        @CsvSource(value = {
+            "41108,jmenodelsinezpadesatznakuajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,Hradec",
+            "41108,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,nazevulicekteryjedelsinezpadesatruznychznakunazevul,Hradec",
+            "41108,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,ul,Hradec",
+            "4110,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,Hradec",
+            "411080,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,Hradec",
+            "41S44,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,Hradec",
+            "41108,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,a",
+            "41108,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,nazevmestakteryjedelsinezpadesatruznychznakunazevul",
+            "41108,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdelsinezpadesatznakuaprijmdelsinezpadesatznaku,Zahradni,Hradec",
+        })
+        public void shouldThrowValidationException(String postalCode, String name, String surname, String street, String city) {
+            if (postalCode.equals("nill"))
+                postalCode = null;
+            if (name.equals("nill"))
+                name = null;
+            if (surname.equals("nill"))
+                surname = null;
+            if (street.equals("nill"))
+                street = null;
+            if (city.equals("nill"))
+                city = null;
+
+            PersonTo validatePerson = PersonTo.builder()
+                .firstName(name)
+                .lastName(surname)
+                .address(AddressTo.builder()
+                    .street(street)
+                    .city(city)
+                    .postalCode(postalCode)
+                    .build())
+                .build();
+
+            assertThrows(ValidationException.class, () -> ReflectionTestUtils.invokeMethod(testSubject, "personValidate", validatePerson));
+        }
+
+        @ParameterizedTest
+        @DisplayName("Validation of person should fail with NullPointerException")
+        @CsvSource(value = {
+            "41108,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,nill,Hradec",
+            "nill,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,Hradec",
+            "41108,jmenodlouhepadesatznakuaajmenodelsinezpadesatznaku,prijmdlouhepadesatznakuaajmenodelsinezpadesatznaku,Zahradni,nill"
+        })
+        public void shouldThrowNullPointerException(String postalCode, String name, String surname, String street, String city) {
+            if (postalCode.equals("nill"))
+                postalCode = null;
+            if (name.equals("nill"))
+                name = null;
+            if (surname.equals("nill"))
+                surname = null;
+            if (street.equals("nill"))
+                street = null;
+            if (city.equals("nill"))
+                city = null;
+
+            PersonTo validatePerson = PersonTo.builder()
+                .firstName(name)
+                .lastName(surname)
+                .address(AddressTo.builder()
+                    .street(street)
+                    .city(city)
+                    .postalCode(postalCode)
+                    .build())
+                .build();
+
+            assertThrows(NullPointerException.class, () -> ReflectionTestUtils.invokeMethod(testSubject, "personValidate", validatePerson));
         }
     }
 
