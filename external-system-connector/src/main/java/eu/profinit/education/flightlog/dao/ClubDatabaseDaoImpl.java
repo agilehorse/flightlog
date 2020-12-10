@@ -32,7 +32,7 @@ public class ClubDatabaseDaoImpl implements ClubDatabaseDao {
             //  5.3: implementujte tělo volání endpointu ClubDB pomocí REST template
             ResponseEntity<User[]> response = restTemplate.getForEntity(clubDbBaseUrl + "/club/user", User[].class);
             userList = response.getBody();
-       } catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             throw new ExternalSystemException("Cannot get users from Club database. URL: {}. Call resulted in exception.", e, clubDbBaseUrl);
         }
         return Arrays.asList(userList);

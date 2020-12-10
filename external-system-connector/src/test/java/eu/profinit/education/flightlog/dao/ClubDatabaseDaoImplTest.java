@@ -1,43 +1,46 @@
 package eu.profinit.education.flightlog.dao;
 
+import eu.profinit.education.flightlog.exceptions.ExternalSystemException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import java.util.Arrays;
+import java.util.Collections;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
-@TestPropertySource(properties = {"integration.clubDb.baseUrl = http://vyuka.profinit.eu:8080"})
-@ContextConfiguration
-@Tag("slow")
-@Tag("integration")
-public class ClubDatabaseDaoImplTest {
+@Tag("fast")
+@Tag("unit")
+class ClubDatabaseDaoImplTest {
 
-    @Autowired
-    private ClubDatabaseDao testSubject;
+    @Mock
+    private RestTemplate restTemplate;
 
-    @Test
-    public void getUsers(){
-        assumeTrue(testSubject != null, "Test is ignored because it requires clubDB server to run.");
+    @InjectMocks
+    private ClubDatabaseDaoImpl testSubject;
 
-        List<User> users = testSubject.getUsers();
-        assertTrue(users.size() > 5, "Should contains at least 5 items.");
-        assertNotNull(users.get(0).getFirstName());
-        assertNotNull(users.get(0).getLastName());
-        assertNotNull(users.get(0).getMemberId());
-        assertNotNull(users.get(0).getRoles());
+    private final String url = "http://test";
+
+    @BeforeEach
+    public void setUp(){
+        testSubject = new ClubDatabaseDaoImpl(url);
+        // init mocks
+        MockitoAnnotations.initMocks(this);
     }
 
-    @Configuration
-    @ComponentScan
-    public static class IntegrationTestConfig {
+    @Test
+    public void getUsersThrowsExternalSystemExceptionIfExternalSystemDoesNotRespond() {
+        Mockito.doThrow(RuntimeException.class).when(restTemplate).getForEntity(Mockito.any(), Mockito.any());
 
+        Exception exception = assertThrows(ExternalSystemException.class, () -> testSubject.getUsers());
+        assertEquals("Cannot get users from Club database. URL: "+url+". Call resulted in exception.", exception.getMessage());
     }
 }
