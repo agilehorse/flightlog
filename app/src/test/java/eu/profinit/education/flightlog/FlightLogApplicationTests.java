@@ -1,8 +1,6 @@
 package eu.profinit.education.flightlog;
 
-import eu.profinit.education.flightlog.domain.repositories.FlightRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -342,7 +342,6 @@ public class PersonServiceTest {
                 () -> assertEquals(person.getFullAddress(), guestPersonExcepted.getFullAddress())
             );
         }
-
     }
 
 }
