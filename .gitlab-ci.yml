@@ -1,4 +1,4 @@
-image: cvutczm/maven3_jdk11_cs_locale_ci:latest
+image: markhobson/maven-chrome:jdk-11
 
 stages:
   - Build
@@ -18,6 +18,7 @@ compile:
   stage: Build
   only:
     - master
+    - zks
   when: always
   script:
     - mvn clean compile
@@ -27,6 +28,7 @@ unit tests:
   stage: Test
   only:
     - master
+      - zks
   when: on_success
   script:
     - mvn -P unit test
@@ -36,6 +38,7 @@ integration tests:
   stage: Test
   only:
     - master
+      - zks
   when: on_success
   script:
     - mvn -P integration test
