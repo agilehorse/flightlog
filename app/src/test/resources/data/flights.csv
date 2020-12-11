@@ -1,0 +1,6 @@
+Datum,Čas vzletu,Typ letadla,Imatrikulace,Úloha letadla,Datum a čas přistání,Jméno a přijmení a adresa pilota,Jméno a přijmení a adresa copilota
+25.10.2018 12:30:00,KKB-15,OK-123,,,Kamila Spoustová null null null null,
+23.10.2018 17:30:00,Zlín Z-42M,OK-V23424,VLEK,23.10.2018 19:30:00,Řehoř Novák null null null null,Kamila Spoustová null null null null
+23.10.2018 17:30:00,Zlín Z-42M,OK-V23424,1A,23.10.2018 17:35:00,Řehoř Novák null null null null,Kamila Spoustová null null null null
+23.10.2018 13:30:00,Zlín Z-42M,OK-V23424,VLEK,23.10.2018 13:35:00,Kamila Spoustová null null null null,
+23.10.2018 13:30:00,Zlín Z-42M,OK-V23424,,23.10.2018 15:45:30,Kamila Spoustová null null null null,

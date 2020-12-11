@@ -1,7 +1,7 @@
 package eu.profinit.education.flightlog.selenium;
 
-import cz.cvut.fel.still.sqa.seleniumStarterPack.config.DriverFactory;
 import eu.profinit.education.flightlog.IntegrationTestConfig;
+import eu.profinit.education.flightlog.selenium.driver.DriverFactory;
 import eu.profinit.education.flightlog.selenium.tasks.EndFlight;
 import eu.profinit.education.flightlog.selenium.tasks.StartWith;
 import net.serenitybdd.junit.runners.SerenityRunner;
@@ -25,14 +25,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(SerenityRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = IntegrationTestConfig.class)
-public class SeleniumPocTest {
-
-    Actor james = Actor.named("James");
+public class UserCanLandFlightTest {
 
     @Rule
     public SpringIntegrationMethodRule springIntegrationMethodRule = new SpringIntegrationMethodRule();
 
     private WebDriver driver;
+    private Actor james = Actor.named("Karel");
 
     @Before
     public void before() throws IOException {

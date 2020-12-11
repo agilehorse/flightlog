@@ -124,11 +124,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>cz.cvut.fel.still</groupId>
-            <artifactId>selenium-starter-kit</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
 
     <build>
