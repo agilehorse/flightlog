@@ -3,7 +3,7 @@ image: markhobson/maven-chrome:jdk-11
 stages:
   - Build
   - Test
-  - E2E
+  - FrontEndTest
 
 cache:
   paths:
@@ -46,7 +46,7 @@ integration tests:
 
 end to end tests:
   allow_failure: false
-    stage: E2E
+    stage: FrontEndTest
     only:
       - master
       - zks
