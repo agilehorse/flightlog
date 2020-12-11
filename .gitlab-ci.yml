@@ -28,7 +28,7 @@ unit tests:
   stage: Test
   only:
     - master
-      - zks
+    - zks
   when: on_success
   script:
     - mvn -P unit test
@@ -38,7 +38,7 @@ integration tests:
   stage: Test
   only:
     - master
-      - zks
+    - zks
   when: on_success
   script:
     - mvn -P integration test
