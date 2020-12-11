@@ -19,7 +19,7 @@ public class EndFlight implements Task {
         return Instrumented.instanceOf(EndFlight.class).withProperties(flight);
     }
 
-    @Step("{0} ends a flight called #thingToDo")
+    @Step("{0} ends a flight with id #flight")
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
             Click.on(Target

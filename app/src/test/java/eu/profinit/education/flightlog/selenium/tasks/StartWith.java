@@ -12,7 +12,7 @@ public class StartWith implements Task {
 
     ApplicationHomePage applicationHomePage;
 
-    public static StartWith emptyActiveFlights() {
+    public static StartWith activeFlights() {
         return instrumented(StartWith.class);
     }
 
