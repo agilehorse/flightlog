@@ -25,7 +25,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(SerenityRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = IntegrationTestConfig.class)
-@Tag("e2e")
 public class SeleniumPocTest {
 
     Actor james = Actor.named("James");

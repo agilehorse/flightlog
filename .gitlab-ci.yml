@@ -52,6 +52,6 @@ end to end tests:
     - zks
   when: on_success
   script:
-    - mvn -P e2e test -Dheadless=true
+    - mvn verify -Dheadless=true
 
 

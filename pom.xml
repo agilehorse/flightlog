@@ -25,7 +25,7 @@
         <apache.commons.csv.version>1.6</apache.commons.csv.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <sun.xml.bind.jaxb>2.2.7</sun.xml.bind.jaxb>
-        <tests>unit,integration,e2e</tests>
+        <tests>unit,integration</tests>
 	</properties>
 
     <profiles>
@@ -33,12 +33,6 @@
             <id>integration</id>
             <properties>
                 <tests>integration</tests>
-            </properties>
-        </profile>
-        <profile>
-            <id>e2e</id>
-            <properties>
-                <tests>e2e</tests>
             </properties>
         </profile>
         <profile>
