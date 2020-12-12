@@ -2,7 +2,6 @@ package eu.profinit.education.flightlog.domain.repositories;
 
 import eu.profinit.education.flightlog.IntegrationTestConfig;
 import eu.profinit.education.flightlog.domain.entities.Flight;
-
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
