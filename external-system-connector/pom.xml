@@ -68,6 +68,7 @@
                 <version>2.22.0</version>
                 <configuration>
                     <groups>${tests}</groups>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
         </plugins>
