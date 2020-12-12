@@ -1,7 +1,6 @@
 package eu.profinit.education.flightlog.selenium.driver;
 
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -20,16 +19,10 @@ import static eu.profinit.education.flightlog.selenium.driver.DriverType.CHROME;
 
 public class DriverFactory {
 
-    private RemoteWebDriver webDriver;
     private DriverType selectedDriverType;
-    private String currentTestName;
     private Properties properties;
 
     private final boolean useRemoteWebDriver = Boolean.getBoolean("remoteDriver");
-
-    public void setTestName(String testname) {
-        currentTestName = testname;
-    }
 
     public DriverFactory() throws IOException {
         DriverType driverType = CHROME;
@@ -72,12 +65,6 @@ public class DriverFactory {
         return instantiateWebDriver(selectedDriverType, path);
     }
 
-    public void quitDriver() {
-        if (null != webDriver) {
-            webDriver.quit();
-            webDriver = null;
-        }
-    }
 
     private RemoteWebDriver instantiateWebDriver(DriverType driverType) throws MalformedURLException {
         return instantiateWebDriver(driverType, null);

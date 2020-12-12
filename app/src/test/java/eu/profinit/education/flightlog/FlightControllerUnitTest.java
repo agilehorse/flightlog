@@ -1,6 +1,6 @@
 package eu.profinit.education.flightlog;
 
-import eu.profinit.education.flightlog.domain.entities.*;
+import eu.profinit.education.flightlog.domain.entities.FlightId;
 import eu.profinit.education.flightlog.exceptions.ExternalSystemException;
 import eu.profinit.education.flightlog.exceptions.NotFoundException;
 import eu.profinit.education.flightlog.exceptions.ValidationException;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.junit.jupiter.api.*;
-import org.mockito.*;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

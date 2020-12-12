@@ -10,7 +10,6 @@ import net.serenitybdd.screenplay.targets.Target;
 import net.thucydides.core.annotations.Step;
 import org.openqa.selenium.Keys;
 
-
 import static eu.profinit.education.flightlog.selenium.pageObjects.NewFlight.*;
 
 public class FillOutFlightInfo implements Task {
