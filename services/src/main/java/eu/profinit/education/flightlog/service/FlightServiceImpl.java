@@ -109,6 +109,8 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<FlightTo> getFlightsInTheAir() {
         return flightRepository.findAllByLandingTimeNullOrderByTakeoffTimeAscIdAsc().stream().map(FlightTo::fromEntity).collect(Collectors.toList());
+        //  2.5: načtěte lety ve vzduchu pomocí vaší nové metody ve FlightRepository
+        // Můžete použít Java 8 Stream API pro konverzi na Transfer Object (TO)
     }
 
     @Override
