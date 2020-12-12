@@ -11,6 +11,10 @@ public class ApplicationHomePage extends PageObject {
         .the("Active flights")
         .locatedBy("/html/body/router-view/div/div/div/table/tbody");
 
+    public static final Target ACTIVE_FLIGHTS_LIST = Target
+        .the("Active flights list")
+        .locatedBy("/html/body/router-view/div/div/div/table/tbody/tr");
+
     public static final Target LANDING_TIME_INPUT = Target
         .the("Manual landing time input")
         .locatedBy("/html/body/router-view/div/div/div/div/div/div[2]/div[1]/input");

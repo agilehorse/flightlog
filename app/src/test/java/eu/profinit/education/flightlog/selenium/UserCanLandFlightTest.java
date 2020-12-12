@@ -9,7 +9,6 @@ import net.serenitybdd.junit.spring.integration.SpringIntegrationMethodRule;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import org.junit.*;
-import org.junit.jupiter.api.Tag;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -31,7 +30,7 @@ public class UserCanLandFlightTest {
     public SpringIntegrationMethodRule springIntegrationMethodRule = new SpringIntegrationMethodRule();
 
     private WebDriver driver;
-    private Actor james = Actor.named("Karel");
+    private Actor james = Actor.named("Kuba");
 
     @Before
     public void before() throws IOException {

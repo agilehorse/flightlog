@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -43,7 +42,7 @@ public class UserCanDownloadExportTest {
     @Rule
     public SpringIntegrationMethodRule springIntegrationMethodRule = new SpringIntegrationMethodRule();
 
-    private Actor james = Actor.named("Karel");
+    private Actor james = Actor.named("Kuba");
     private WebDriver driver;
     private String path;
 
@@ -55,7 +54,7 @@ public class UserCanDownloadExportTest {
     }
 
     @Test
-    public void shouldBeAbleToEndActiveFlights() throws IOException, URISyntaxException {
+    public void shouldBeAbleToDownloadCorrectExportData() throws IOException, URISyntaxException {
         givenThat(james).wasAbleTo(StartWithExportPage.downloadExportPage());
         when(james).attemptsTo(DownloadExport.downloadExportPage());
 

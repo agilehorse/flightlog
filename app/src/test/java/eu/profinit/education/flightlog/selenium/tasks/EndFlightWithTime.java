@@ -16,7 +16,7 @@ import static eu.profinit.education.flightlog.selenium.pageObjects.ApplicationHo
 public class EndFlightWithTime implements Task {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-    String time = LocalDateTime.now().format(formatter); // defaults to the actual time
+    String time = LocalDateTime.now().format(formatter); // defaults to the current time
 
     public EndFlightWithTime(String time) {
         this.time = time;
