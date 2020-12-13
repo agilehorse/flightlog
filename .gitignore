@@ -43,3 +43,6 @@ frontend/dist
 # OS
 .DS_STORE
 Thumbs.db
+
+# Testing
+app/debug.log
