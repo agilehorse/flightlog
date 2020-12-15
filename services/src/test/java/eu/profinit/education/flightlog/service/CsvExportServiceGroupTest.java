@@ -15,7 +15,6 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-// ORIGINAL TEST
 @SpringBootTest(classes = IntegrationTestConfig.class)
 @Transactional
 @Tag("slow")
@@ -25,6 +24,8 @@ public class CsvExportServiceGroupTest {
     @InjectMocks
     private CsvExportService testSubject;
 
+    // 6.1: Odstrante anotaci @Ignore, aby se test vykonaval
+    //@Ignore("Tested method is not implemented yet")
     @Test
     public void testCSVExport() throws IOException, URISyntaxException {
         String fileName = "csv/expectedExport.csv";

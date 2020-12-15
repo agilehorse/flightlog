@@ -1,7 +1,10 @@
 package eu.profinit.education.flightlog.to;
 
 import eu.profinit.education.flightlog.domain.entities.Address;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor

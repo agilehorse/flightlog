@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class Person {
 
