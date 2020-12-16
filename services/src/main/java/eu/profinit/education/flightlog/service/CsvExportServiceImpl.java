@@ -27,7 +27,11 @@ public class CsvExportServiceImpl implements CsvExportService {
     private final FlightRepository flightRepository;
 
     private final String fileName;
+
     private static final String DATE_PATTERN = "dd.MM.yyyy HH:mm:ss";
+    private static final String DATE_PATTER_DAY = "dd.MM.yyyy";
+    private static final String DATE_PATTERN_TIME = "HH:mm:ss";
+
     private final String[] HEADERS = new String[]{"Datum", "Čas vzletu", "Typ letadla", "Imatrikulace", "Úloha letadla", "Datum a čas přistání", "Jméno a přijmení a adresa pilota", "Jméno a přijmení a adresa copilota"};
 
     public CsvExportServiceImpl(FlightRepository flightRepository, @Value("${csv.export.flight.fileName}") String fileName) {
@@ -49,11 +53,12 @@ public class CsvExportServiceImpl implements CsvExportService {
                 Airplane towPlane = towPlaneFlight.getAirplane();
                 String copilotData = towPlaneCopilot == null ? "" : towPlaneCopilot.getFullName() + " " + towPlaneCopilot.getFullAddress();
                 csvPrinter.printRecord(
-                    formatDateTime(towPlaneFlight.getTakeoffTime()),
+                    formatDateTimeWithPatter(towPlaneFlight.getTakeoffTime(), DATE_PATTER_DAY),
+                    formatDateTimeWithPatter(towPlaneFlight.getTakeoffTime(), DATE_PATTERN_TIME),
                     towPlane.getSafeType(),
                     towPlane.getSafeImmatriculation(),
                     towPlaneFlight.getTask().getValue(),
-                    formatDateTime(towPlaneFlight.getLandingTime()),
+                    formatDateTimeWithPatter(towPlaneFlight.getLandingTime(), DATE_PATTERN),
                     (towPlanePilot.getFullName() + " " + towPlanePilot.getFullAddress()).trim(),
                     copilotData.trim());
 
@@ -65,11 +70,12 @@ public class CsvExportServiceImpl implements CsvExportService {
                     Person gliderCopilot = towPlaneFlight.getCopilot();
                     String gliderCopilotData = gliderCopilot == null ? "" : gliderCopilot.getFullName() + " " + gliderCopilot.getFullAddress();
                     csvPrinter.printRecord(
-                        formatDateTime(gliderFlight.getTakeoffTime()),
+                        formatDateTimeWithPatter(gliderFlight.getTakeoffTime(), DATE_PATTER_DAY),
+                        formatDateTimeWithPatter(gliderFlight.getTakeoffTime(), DATE_PATTERN_TIME),
                         glider.getSafeType(),
                         glider.getSafeImmatriculation(),
                         gliderFlight.getTask().getValue(),
-                        formatDateTime(gliderFlight.getLandingTime()),
+                        formatDateTimeWithPatter(gliderFlight.getLandingTime(), DATE_PATTERN),
                         (gliderPilot.getFullName() + " " + gliderPilot.getFullAddress()).trim(),
                         gliderCopilotData.trim());
                 }
@@ -81,11 +87,11 @@ public class CsvExportServiceImpl implements CsvExportService {
         }
     }
 
-    private String formatDateTime(LocalDateTime dateTime) {
+    private String formatDateTimeWithPatter(LocalDateTime dateTime, String pattern) {
         if (dateTime == null) {
             return "";
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         return formatter.format(dateTime);
     }
 }
