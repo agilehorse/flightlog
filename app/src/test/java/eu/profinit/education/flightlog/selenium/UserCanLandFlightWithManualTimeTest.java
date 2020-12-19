@@ -38,6 +38,7 @@ public class UserCanLandFlightWithManualTimeTest {
     private WebDriver driver;
     private Actor james = Actor.named("Kuba");
 
+
     @Before
     public void before() throws IOException {
         driver = new DriverFactory().getDriver();
